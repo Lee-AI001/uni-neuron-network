@@ -1,0 +1,1158 @@
+Information:  'v'
+
+1. test on data: url = "https://archive.ics.uci.edu/ml/machine-learning-databases/concrete/compressive/Concrete_Data.xls"
+
+2. 4 neuron networks compare:  normal NN, advanced NN, uni-NN, advanced uni-NN. *advanced* means use Adam optopt, BN, dropout, and "clipping, learning rate decay" for advanced uni-NN
+
+3. 4 groups: Small Size (~150 parameters, 2 hidden layers)   
+             Mid Size (~300 parameters, 2 hidden layers)   
+             Large Size (~600 parameters, 2 hidden layers)   
+             Long Group (~300 parameters, ~5-6 hidden layers)
+
+4. structure for all NN: 
+Small: [8, 10, 6, 1] (Normal/Adv-Normal, 163 params), [8, 6, 6, 1] (Uni/AdvUni, 165 params).
+Mid: [8, 14, 10, 1] (Normal/Adv-Normal, 287 params), [8, 13, 6, 1] (Uni/AdvUni, 277 params).
+Large: [8, 24, 16, 1] (Normal/Adv-Normal, 633 params), [8, 20, 14, 1] (Uni/AdvUni, 629 params).
+Long: [8, 10, 8, 8, 4, 4, 1] (Normal/Adv-Normal, 311 params), [8, 6, 4, 4, 2, 2, 1] (Uni/AdvUni, 313 params).
+
+5. Controlled varibles: 
+      EPOCHS = 10000
+      BATCH_SIZE = 64
+      Total Samples: 1030
+      Train: 927 samples (90.0%)
+      Dev: 51 samples (5.0%)
+      Test: 52 samples (5.0%)
+
+6. Hyperparameters: 
+      Learning rates (0.001, 0.0025, 0.005, 0.0075, 0.01, 0.025, 0.05)
+
+7. Metrics: (performance) 
+      Accuracy: Test MSE and R².
+      Compute Speed: Training time (seconds), latency (seconds per forward pass).
+      Generalization: Overfit Gap (Train MSE - Dev MSE).
+
+
+RESULT:   * welcome to test it out yourself in "uni-NN_test" ^v* 
+
+
+LEARNING_RATE = 0.001                                 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Small Group Results:
+Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0174, Dev MSE: 0.0122, Test MSE: 0.0188
+Train MAE: 0.1062, Dev MAE: 0.0878, Test MAE: 0.1175
+Train R²: 0.5985, Dev R²: 0.6775, Test R²: 0.5765
+Train Residual: 0.1062, Dev Residual: 0.0878, Test Residual: 0.1175
+Time: 30.03s, Latency: 0.0001s, Overfit Gap: 0.0052
+Advanced-Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0065, Dev MSE: 0.0084, Test MSE: 0.0071
+Train MAE: 0.0624, Dev MAE: 0.0669, Test MAE: 0.0731
+Train R²: 0.8499, Dev R²: 0.7779, Test R²: 0.8394
+Train Residual: 0.0624, Dev Residual: 0.0669, Test Residual: 0.0731
+Time: 88.57s, Latency: 0.0001s, Overfit Gap: -0.0019
+Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0170, Dev MSE: 0.0104, Test MSE: 0.0216
+Train MAE: 0.1039, Dev MAE: 0.0807, Test MAE: 0.1208
+Train R²: 0.6096, Dev R²: 0.7253, Test R²: 0.5139
+Train Residual: 0.1039, Dev Residual: 0.0807, Test Residual: 0.1208
+Time: 43.45s, Latency: 0.0001s, Overfit Gap: 0.0066
+Advanced-Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0068, Dev MSE: 0.0054, Test MSE: 0.0070
+Train MAE: 0.0629, Dev MAE: 0.0541, Test MAE: 0.0671
+Train R²: 0.8436, Dev R²: 0.8573, Test R²: 0.8429
+Train Residual: 0.0629, Dev Residual: 0.0541, Test Residual: 0.0671
+Time: 147.65s, Latency: 0.0002s, Overfit Gap: 0.0014
+
+
+
+Mid Group Results:
+Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0174, Dev MSE: 0.0118, Test MSE: 0.0216
+Train MAE: 0.1050, Dev MAE: 0.0863, Test MAE: 0.1227
+Train R²: 0.6005, Dev R²: 0.6894, Test R²: 0.5144
+Train Residual: 0.1050, Dev Residual: 0.0863, Test Residual: 0.1227
+Time: 52.98s, Latency: 0.0001s, Overfit Gap: 0.0056
+Advanced-Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0078, Dev MSE: 0.0093, Test MSE: 0.0093
+Train MAE: 0.0695, Dev MAE: 0.0790, Test MAE: 0.0807
+Train R²: 0.8194, Dev R²: 0.7534, Test R²: 0.7906
+Train Residual: 0.0695, Dev Residual: 0.0790, Test Residual: 0.0807
+Time: 156.02s, Latency: 0.0002s, Overfit Gap: -0.0015
+Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0153, Dev MSE: 0.0097, Test MSE: 0.0196
+Train MAE: 0.0977, Dev MAE: 0.0792, Test MAE: 0.1125
+Train R²: 0.6482, Dev R²: 0.7434, Test R²: 0.5580
+Train Residual: 0.0977, Dev Residual: 0.0792, Test Residual: 0.1125
+Time: 78.36s, Latency: 0.0002s, Overfit Gap: 0.0056
+Advanced-Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0054, Dev MSE: 0.0065, Test MSE: 0.0051
+Train MAE: 0.0552, Dev MAE: 0.0611, Test MAE: 0.0604
+Train R²: 0.8759, Dev R²: 0.8283, Test R²: 0.8855
+Train Residual: 0.0552, Dev Residual: 0.0611, Test Residual: 0.0604
+Time: 247.59s, Latency: 0.0002s, Overfit Gap: -0.0011
+
+
+
+Large Group Results:
+Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0180, Dev MSE: 0.0132, Test MSE: 0.0211
+Train MAE: 0.1077, Dev MAE: 0.0922, Test MAE: 0.1230
+Train R²: 0.5855, Dev R²: 0.6509, Test R²: 0.5262
+Train Residual: 0.1077, Dev Residual: 0.0922, Test Residual: 0.1230
+Time: 57.00s, Latency: 0.0001s, Overfit Gap: 0.0048
+Advanced-Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0068, Dev MSE: 0.0076, Test MSE: 0.0072
+Train MAE: 0.0632, Dev MAE: 0.0677, Test MAE: 0.0704
+Train R²: 0.8440, Dev R²: 0.7982, Test R²: 0.8369
+Train Residual: 0.0632, Dev Residual: 0.0677, Test Residual: 0.0704
+Time: 169.33s, Latency: 0.0002s, Overfit Gap: -0.0009
+Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0154, Dev MSE: 0.0094, Test MSE: 0.0197
+Train MAE: 0.0980, Dev MAE: 0.0772, Test MAE: 0.1113
+Train R²: 0.6467, Dev R²: 0.7512, Test R²: 0.5568
+Train Residual: 0.0980, Dev Residual: 0.0772, Test Residual: 0.1113
+Time: 83.26s, Latency: 0.0001s, Overfit Gap: 0.0059
+Advanced-Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0041, Dev MSE: 0.0050, Test MSE: 0.0047
+Train MAE: 0.0483, Dev MAE: 0.0555, Test MAE: 0.0580
+Train R²: 0.9050, Dev R²: 0.8676, Test R²: 0.8950
+Train Residual: 0.0483, Dev Residual: 0.0555, Test Residual: 0.0580
+Time: 267.61s, Latency: 0.0002s, Overfit Gap: -0.0009
+
+
+
+Long Group Results:
+Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0435, Dev MSE: 0.0388, Test MSE: 0.0446
+Train MAE: 0.1681, Dev MAE: 0.1609, Test MAE: 0.1716
+Train R²: -0.0001, Dev R²: -0.0263, Test R²: -0.0036
+Train Residual: 0.1681, Dev Residual: 0.1609, Test Residual: 0.1716
+Time: 49.03s, Latency: 0.0001s, Overfit Gap: 0.0046
+Advanced-Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0183, Dev MSE: 0.0191, Test MSE: 0.0198
+Train MAE: 0.1085, Dev MAE: 0.1109, Test MAE: 0.1203
+Train R²: 0.5789, Dev R²: 0.4966, Test R²: 0.5540
+Train Residual: 0.1085, Dev Residual: 0.1109, Test Residual: 0.1203
+Time: 177.09s, Latency: 0.0002s, Overfit Gap: -0.0008
+Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0163, Dev MSE: 0.0100, Test MSE: 0.0207
+Train MAE: 0.1014, Dev MAE: 0.0793, Test MAE: 0.1170
+Train R²: 0.6256, Dev R²: 0.7359, Test R²: 0.5337
+Train Residual: 0.1014, Dev Residual: 0.0793, Test Residual: 0.1170
+Time: 99.31s, Latency: 0.0002s, Overfit Gap: 0.0063
+Advanced-Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0048, Dev MSE: 0.0042, Test MSE: 0.0046
+Train MAE: 0.0535, Dev MAE: 0.0527, Test MAE: 0.0560
+Train R²: 0.8888, Dev R²: 0.8883, Test R²: 0.8955
+Train Residual: 0.0535, Dev Residual: 0.0527, Test Residual: 0.0560
+Time: 355.17s, Latency: 0.0003s, Overfit Gap: 0.0006
+
+
+
+
+
+Uni-Neuron Network Results Across All Groups:
+Uni-NN Small (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0170, Dev MSE: 0.0104, Test MSE: 0.0216
+Train MAE: 0.1039, Dev MAE: 0.0807, Test MAE: 0.1208
+Train R²: 0.6096, Dev R²: 0.7253, Test R²: 0.5139
+Train Residual: 0.1039, Dev Residual: 0.0807, Test Residual: 0.1208
+Time: 43.45s, Latency: 0.0001s, Overfit Gap: 0.0066
+
+Uni-NN Mid (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0153, Dev MSE: 0.0097, Test MSE: 0.0196
+Train MAE: 0.0977, Dev MAE: 0.0792, Test MAE: 0.1125
+Train R²: 0.6482, Dev R²: 0.7434, Test R²: 0.5580
+Train Residual: 0.0977, Dev Residual: 0.0792, Test Residual: 0.1125
+Time: 78.36s, Latency: 0.0002s, Overfit Gap: 0.0056
+
+Uni-NN Large (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0154, Dev MSE: 0.0094, Test MSE: 0.0197
+Train MAE: 0.0980, Dev MAE: 0.0772, Test MAE: 0.1113
+Train R²: 0.6467, Dev R²: 0.7512, Test R²: 0.5568
+Train Residual: 0.0980, Dev Residual: 0.0772, Test Residual: 0.1113
+Time: 83.26s, Latency: 0.0001s, Overfit Gap: 0.0059
+
+Uni-NN Long (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0163, Dev MSE: 0.0100, Test MSE: 0.0207
+Train MAE: 0.1014, Dev MAE: 0.0793, Test MAE: 0.1170
+Train R²: 0.6256, Dev R²: 0.7359, Test R²: 0.5337
+Train Residual: 0.1014, Dev Residual: 0.0793, Test Residual: 0.1170
+Time: 99.31s, Latency: 0.0002s, Overfit Gap: 0.0063
+
+
+
+
+
+LEARNING_RATE = 0.0025                                           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Small Group Results:
+Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0171, Dev MSE: 0.0108, Test MSE: 0.0209
+Train MAE: 0.1041, Dev MAE: 0.0815, Test MAE: 0.1209
+Train R²: 0.6074, Dev R²: 0.7139, Test R²: 0.5300
+Train Residual: 0.1041, Dev Residual: 0.0815, Test Residual: 0.1209
+Time: 33.18s, Latency: 0.0001s, Overfit Gap: 0.0062
+Advanced-Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0105, Dev MSE: 0.0097, Test MSE: 0.0100
+Train MAE: 0.0809, Dev MAE: 0.0792, Test MAE: 0.0841
+Train R²: 0.7580, Dev R²: 0.7450, Test R²: 0.7759
+Train Residual: 0.0809, Dev Residual: 0.0792, Test Residual: 0.0841
+Time: 88.98s, Latency: 0.0001s, Overfit Gap: 0.0009
+Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0139, Dev MSE: 0.0090, Test MSE: 0.0167
+Train MAE: 0.0932, Dev MAE: 0.0753, Test MAE: 0.1031
+Train R²: 0.6797, Dev R²: 0.7625, Test R²: 0.6252
+Train Residual: 0.0932, Dev Residual: 0.0753, Test Residual: 0.1031
+Time: 43.72s, Latency: 0.0001s, Overfit Gap: 0.0049
+Advanced-Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0058, Dev MSE: 0.0054, Test MSE: 0.0054
+Train MAE: 0.0586, Dev MAE: 0.0566, Test MAE: 0.0626
+Train R²: 0.8667, Dev R²: 0.8565, Test R²: 0.8790
+Train Residual: 0.0586, Dev Residual: 0.0566, Test Residual: 0.0626
+Time: 157.07s, Latency: 0.0002s, Overfit Gap: 0.0004
+
+
+
+
+Mid Group Results:
+Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0119, Dev MSE: 0.0075, Test MSE: 0.0133
+Train MAE: 0.0842, Dev MAE: 0.0656, Test MAE: 0.0912
+Train R²: 0.7258, Dev R²: 0.8012, Test R²: 0.7004
+Train Residual: 0.0842, Dev Residual: 0.0656, Test Residual: 0.0912
+Time: 53.77s, Latency: 0.0001s, Overfit Gap: 0.0044
+Advanced-Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0055, Dev MSE: 0.0064, Test MSE: 0.0064
+Train MAE: 0.0568, Dev MAE: 0.0615, Test MAE: 0.0660
+Train R²: 0.8736, Dev R²: 0.8311, Test R²: 0.8554
+Train Residual: 0.0568, Dev Residual: 0.0615, Test Residual: 0.0660
+Time: 158.51s, Latency: 0.0002s, Overfit Gap: -0.0009
+Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0124, Dev MSE: 0.0089, Test MSE: 0.0143
+Train MAE: 0.0864, Dev MAE: 0.0745, Test MAE: 0.0967
+Train R²: 0.7148, Dev R²: 0.7659, Test R²: 0.6779
+Train Residual: 0.0864, Dev Residual: 0.0745, Test Residual: 0.0967
+Time: 78.02s, Latency: 0.0001s, Overfit Gap: 0.0035
+Advanced-Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0054, Dev MSE: 0.0065, Test MSE: 0.0057
+Train MAE: 0.0563, Dev MAE: 0.0610, Test MAE: 0.0619
+Train R²: 0.8747, Dev R²: 0.8285, Test R²: 0.8722
+Train Residual: 0.0563, Dev Residual: 0.0610, Test Residual: 0.0619
+Time: 252.67s, Latency: 0.0002s, Overfit Gap: -0.0010
+
+
+
+
+
+
+
+Large Group Results:
+Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0121, Dev MSE: 0.0076, Test MSE: 0.0125
+Train MAE: 0.0845, Dev MAE: 0.0684, Test MAE: 0.0888
+Train R²: 0.7222, Dev R²: 0.7982, Test R²: 0.7182
+Train Residual: 0.0845, Dev Residual: 0.0684, Test Residual: 0.0888
+Time: 59.52s, Latency: 0.0001s, Overfit Gap: 0.0044
+Advanced-Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0046, Dev MSE: 0.0057, Test MSE: 0.0047
+Train MAE: 0.0519, Dev MAE: 0.0597, Test MAE: 0.0570
+Train R²: 0.8952, Dev R²: 0.8494, Test R²: 0.8952
+Train Residual: 0.0519, Dev Residual: 0.0597, Test Residual: 0.0570
+Time: 174.47s, Latency: 0.0002s, Overfit Gap: -0.0011
+Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0128, Dev MSE: 0.0087, Test MSE: 0.0147
+Train MAE: 0.0880, Dev MAE: 0.0748, Test MAE: 0.0972
+Train R²: 0.7060, Dev R²: 0.7703, Test R²: 0.6698
+Train Residual: 0.0880, Dev Residual: 0.0748, Test Residual: 0.0972
+Time: 84.58s, Latency: 0.0001s, Overfit Gap: 0.0041
+Advanced-Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0042, Dev MSE: 0.0056, Test MSE: 0.0046
+Train MAE: 0.0491, Dev MAE: 0.0572, Test MAE: 0.0559
+Train R²: 0.9042, Dev R²: 0.8525, Test R²: 0.8976
+Train Residual: 0.0491, Dev Residual: 0.0572, Test Residual: 0.0559
+Time: 275.86s, Latency: 0.0003s, Overfit Gap: -0.0014
+
+
+
+
+
+
+Long Group Results:
+Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0435, Dev MSE: 0.0388, Test MSE: 0.0446
+Train MAE: 0.1681, Dev MAE: 0.1609, Test MAE: 0.1716
+Train R²: -0.0001, Dev R²: -0.0263, Test R²: -0.0036
+Train Residual: 0.1681, Dev Residual: 0.1609, Test Residual: 0.1716
+Time: 49.97s, Latency: 0.0001s, Overfit Gap: 0.0046
+Advanced-Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0139, Dev MSE: 0.0118, Test MSE: 0.0186
+Train MAE: 0.0912, Dev MAE: 0.0868, Test MAE: 0.1122
+Train R²: 0.6795, Dev R²: 0.6893, Test R²: 0.5818
+Train Residual: 0.0912, Dev Residual: 0.0868, Test Residual: 0.1122
+Time: 181.93s, Latency: 0.0002s, Overfit Gap: 0.0022
+Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0128, Dev MSE: 0.0091, Test MSE: 0.0148
+Train MAE: 0.0886, Dev MAE: 0.0758, Test MAE: 0.0986
+Train R²: 0.7051, Dev R²: 0.7609, Test R²: 0.6678
+Train Residual: 0.0886, Dev Residual: 0.0758, Test Residual: 0.0986
+Time: 103.09s, Latency: 0.0002s, Overfit Gap: 0.0038
+Advanced-Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0046, Dev MSE: 0.0057, Test MSE: 0.0042
+Train MAE: 0.0516, Dev MAE: 0.0607, Test MAE: 0.0540
+Train R²: 0.8949, Dev R²: 0.8495, Test R²: 0.9053
+Train Residual: 0.0516, Dev Residual: 0.0607, Test Residual: 0.0540
+Time: 366.95s, Latency: 0.0003s, Overfit Gap: -0.0011
+
+
+
+
+
+
+Uni-Neuron Network Results Across All Groups:
+Uni-NN Small (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0139, Dev MSE: 0.0090, Test MSE: 0.0167
+Train MAE: 0.0932, Dev MAE: 0.0753, Test MAE: 0.1031
+Train R²: 0.6797, Dev R²: 0.7625, Test R²: 0.6252
+Train Residual: 0.0932, Dev Residual: 0.0753, Test Residual: 0.1031
+Time: 43.72s, Latency: 0.0001s, Overfit Gap: 0.0049
+
+Uni-NN Mid (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0124, Dev MSE: 0.0089, Test MSE: 0.0143
+Train MAE: 0.0864, Dev MAE: 0.0745, Test MAE: 0.0967
+Train R²: 0.7148, Dev R²: 0.7659, Test R²: 0.6779
+Train Residual: 0.0864, Dev Residual: 0.0745, Test Residual: 0.0967
+Time: 78.02s, Latency: 0.0001s, Overfit Gap: 0.0035
+
+Uni-NN Large (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0128, Dev MSE: 0.0087, Test MSE: 0.0147
+Train MAE: 0.0880, Dev MAE: 0.0748, Test MAE: 0.0972
+Train R²: 0.7060, Dev R²: 0.7703, Test R²: 0.6698
+Train Residual: 0.0880, Dev Residual: 0.0748, Test Residual: 0.0972
+Time: 84.58s, Latency: 0.0001s, Overfit Gap: 0.0041
+
+Uni-NN Long (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0128, Dev MSE: 0.0091, Test MSE: 0.0148
+Train MAE: 0.0886, Dev MAE: 0.0758, Test MAE: 0.0986
+Train R²: 0.7051, Dev R²: 0.7609, Test R²: 0.6678
+Train Residual: 0.0886, Dev Residual: 0.0758, Test Residual: 0.0986
+Time: 103.09s, Latency: 0.0002s, Overfit Gap: 0.0038
+
+
+
+
+
+LEARNING_RATE = 0.005                                           <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Small Group Results:
+Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0160, Dev MSE: 0.0102, Test MSE: 0.0212
+Train MAE: 0.0998, Dev MAE: 0.0804, Test MAE: 0.1168
+Train R²: 0.6308, Dev R²: 0.7316, Test R²: 0.5236
+Train Residual: 0.0998, Dev Residual: 0.0804, Test Residual: 0.1168
+Time: 36.25s, Latency: 0.0000s, Overfit Gap: 0.0059
+Advanced-Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0068, Dev MSE: 0.0073, Test MSE: 0.0071
+Train MAE: 0.0643, Dev MAE: 0.0676, Test MAE: 0.0727
+Train R²: 0.8434, Dev R²: 0.8085, Test R²: 0.8398
+Train Residual: 0.0643, Dev Residual: 0.0676, Test Residual: 0.0727
+Time: 89.38s, Latency: 0.0001s, Overfit Gap: -0.0004
+Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0089, Dev MSE: 0.0066, Test MSE: 0.0080
+Train MAE: 0.0724, Dev MAE: 0.0642, Test MAE: 0.0737
+Train R²: 0.7946, Dev R²: 0.8250, Test R²: 0.8205
+Train Residual: 0.0724, Dev Residual: 0.0642, Test Residual: 0.0737
+Time: 43.40s, Latency: 0.0001s, Overfit Gap: 0.0023
+Advanced-Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0054, Dev MSE: 0.0062, Test MSE: 0.0053
+Train MAE: 0.0558, Dev MAE: 0.0597, Test MAE: 0.0606
+Train R²: 0.8764, Dev R²: 0.8351, Test R²: 0.8802
+Train Residual: 0.0558, Dev Residual: 0.0597, Test Residual: 0.0606
+Time: 146.68s, Latency: 0.0001s, Overfit Gap: -0.0009
+
+
+
+
+
+
+
+Mid Group Results:
+Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0071, Dev MSE: 0.0063, Test MSE: 0.0062
+Train MAE: 0.0640, Dev MAE: 0.0618, Test MAE: 0.0639
+Train R²: 0.8360, Dev R²: 0.8348, Test R²: 0.8615
+Train Residual: 0.0640, Dev Residual: 0.0618, Test Residual: 0.0639
+Time: 54.14s, Latency: 0.0001s, Overfit Gap: 0.0009
+Advanced-Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0055, Dev MSE: 0.0058, Test MSE: 0.0055
+Train MAE: 0.0569, Dev MAE: 0.0605, Test MAE: 0.0616
+Train R²: 0.8736, Dev R²: 0.8462, Test R²: 0.8769
+Train Residual: 0.0569, Dev Residual: 0.0605, Test Residual: 0.0616
+Time: 158.64s, Latency: 0.0002s, Overfit Gap: -0.0003
+Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0073, Dev MSE: 0.0061, Test MSE: 0.0069
+Train MAE: 0.0648, Dev MAE: 0.0634, Test MAE: 0.0679
+Train R²: 0.8330, Dev R²: 0.8400, Test R²: 0.8441
+Train Residual: 0.0648, Dev Residual: 0.0634, Test Residual: 0.0679
+Time: 78.19s, Latency: 0.0002s, Overfit Gap: 0.0012
+Advanced-Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0051, Dev MSE: 0.0052, Test MSE: 0.0055
+Train MAE: 0.0536, Dev MAE: 0.0560, Test MAE: 0.0616
+Train R²: 0.8826, Dev R²: 0.8630, Test R²: 0.8768
+Train Residual: 0.0536, Dev Residual: 0.0560, Test Residual: 0.0616
+Time: 252.86s, Latency: 0.0003s, Overfit Gap: -0.0001
+
+
+
+
+
+
+
+
+Large Group Results:
+Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0061, Dev MSE: 0.0055, Test MSE: 0.0060
+Train MAE: 0.0587, Dev MAE: 0.0580, Test MAE: 0.0651
+Train R²: 0.8602, Dev R²: 0.8538, Test R²: 0.8646
+Train Residual: 0.0587, Dev Residual: 0.0580, Test Residual: 0.0651
+Time: 59.69s, Latency: 0.0001s, Overfit Gap: 0.0005
+Advanced-Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0052, Dev MSE: 0.0058, Test MSE: 0.0063
+Train MAE: 0.0552, Dev MAE: 0.0568, Test MAE: 0.0637
+Train R²: 0.8801, Dev R²: 0.8468, Test R²: 0.8594
+Train Residual: 0.0552, Dev Residual: 0.0568, Test Residual: 0.0637
+Time: 174.18s, Latency: 0.0002s, Overfit Gap: -0.0006
+Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0087, Dev MSE: 0.0070, Test MSE: 0.0086
+Train MAE: 0.0711, Dev MAE: 0.0663, Test MAE: 0.0771
+Train R²: 0.7987, Dev R²: 0.8148, Test R²: 0.8055
+Train Residual: 0.0711, Dev Residual: 0.0663, Test Residual: 0.0771
+Time: 84.51s, Latency: 0.0001s, Overfit Gap: 0.0017
+Advanced-Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0045, Dev MSE: 0.0056, Test MSE: 0.0051
+Train MAE: 0.0509, Dev MAE: 0.0581, Test MAE: 0.0585
+Train R²: 0.8960, Dev R²: 0.8531, Test R²: 0.8864
+Train Residual: 0.0509, Dev Residual: 0.0581, Test Residual: 0.0585
+Time: 275.89s, Latency: 0.0008s, Overfit Gap: -0.0010
+
+
+
+
+
+
+
+
+
+Long Group Results:
+Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0435, Dev MSE: 0.0389, Test MSE: 0.0446
+Train MAE: 0.1681, Dev MAE: 0.1609, Test MAE: 0.1716
+Train R²: -0.0001, Dev R²: -0.0264, Test R²: -0.0036
+Train Residual: 0.1681, Dev Residual: 0.1609, Test Residual: 0.1716
+Time: 50.65s, Latency: 0.0001s, Overfit Gap: 0.0046
+Advanced-Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0113, Dev MSE: 0.0117, Test MSE: 0.0136
+Train MAE: 0.0832, Dev MAE: 0.0907, Test MAE: 0.1025
+Train R²: 0.7397, Dev R²: 0.6919, Test R²: 0.6930
+Train Residual: 0.0832, Dev Residual: 0.0907, Test Residual: 0.1025
+Time: 181.84s, Latency: 0.0002s, Overfit Gap: -0.0003
+Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0071, Dev MSE: 0.0059, Test MSE: 0.0070
+Train MAE: 0.0635, Dev MAE: 0.0611, Test MAE: 0.0670
+Train R²: 0.8358, Dev R²: 0.8443, Test R²: 0.8422
+Train Residual: 0.0635, Dev Residual: 0.0611, Test Residual: 0.0670
+Time: 101.91s, Latency: 0.0002s, Overfit Gap: 0.0012
+Advanced-Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0048, Dev MSE: 0.0049, Test MSE: 0.0048
+Train MAE: 0.0516, Dev MAE: 0.0527, Test MAE: 0.0551
+Train R²: 0.8903, Dev R²: 0.8694, Test R²: 0.8922
+Train Residual: 0.0516, Dev Residual: 0.0527, Test Residual: 0.0551
+Time: 367.83s, Latency: 0.0003s, Overfit Gap: -0.0002
+
+
+
+
+
+
+Uni-Neuron Network Results Across All Groups:
+Uni-NN Small (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0089, Dev MSE: 0.0066, Test MSE: 0.0080
+Train MAE: 0.0724, Dev MAE: 0.0642, Test MAE: 0.0737
+Train R²: 0.7946, Dev R²: 0.8250, Test R²: 0.8205
+Train Residual: 0.0724, Dev Residual: 0.0642, Test Residual: 0.0737
+Time: 43.40s, Latency: 0.0001s, Overfit Gap: 0.0023
+
+Uni-NN Mid (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0073, Dev MSE: 0.0061, Test MSE: 0.0069
+Train MAE: 0.0648, Dev MAE: 0.0634, Test MAE: 0.0679
+Train R²: 0.8330, Dev R²: 0.8400, Test R²: 0.8441
+Train Residual: 0.0648, Dev Residual: 0.0634, Test Residual: 0.0679
+Time: 78.19s, Latency: 0.0002s, Overfit Gap: 0.0012
+
+Uni-NN Large (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0087, Dev MSE: 0.0070, Test MSE: 0.0086
+Train MAE: 0.0711, Dev MAE: 0.0663, Test MAE: 0.0771
+Train R²: 0.7987, Dev R²: 0.8148, Test R²: 0.8055
+Train Residual: 0.0711, Dev Residual: 0.0663, Test Residual: 0.0771
+Time: 84.51s, Latency: 0.0001s, Overfit Gap: 0.0017
+
+Uni-NN Long (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0071, Dev MSE: 0.0059, Test MSE: 0.0070
+Train MAE: 0.0635, Dev MAE: 0.0611, Test MAE: 0.0670
+Train R²: 0.8358, Dev R²: 0.8443, Test R²: 0.8422
+Train Residual: 0.0635, Dev Residual: 0.0611, Test Residual: 0.0670
+Time: 101.91s, Latency: 0.0002s, Overfit Gap: 0.0012
+
+
+
+
+
+LEARNING_RATE = 0.0075                                       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Small Group Results:
+Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0048, Dev MSE: 0.0067, Test MSE: 0.0057
+Train MAE: 0.0518, Dev MAE: 0.0653, Test MAE: 0.0561
+Train R²: 0.8907, Dev R²: 0.8217, Test R²: 0.8717
+Train Residual: 0.0518, Dev Residual: 0.0653, Test Residual: 0.0561
+Time: 30.86s, Latency: 0.0001s, Overfit Gap: -0.0020
+Advanced-Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0064, Dev MSE: 0.0087, Test MSE: 0.0075
+Train MAE: 0.0602, Dev MAE: 0.0709, Test MAE: 0.0706
+Train R²: 0.8531, Dev R²: 0.7698, Test R²: 0.8317
+Train Residual: 0.0602, Dev Residual: 0.0709, Test Residual: 0.0706
+Time: 87.35s, Latency: 0.0001s, Overfit Gap: -0.0023
+Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0043, Dev MSE: 0.0051, Test MSE: 0.0040
+Train MAE: 0.0492, Dev MAE: 0.0565, Test MAE: 0.0503
+Train R²: 0.9009, Dev R²: 0.8644, Test R²: 0.9091
+Train Residual: 0.0492, Dev Residual: 0.0565, Test Residual: 0.0503
+Time: 44.07s, Latency: 0.0002s, Overfit Gap: -0.0008
+Advanced-Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0040, Dev MSE: 0.0053, Test MSE: 0.0047
+Train MAE: 0.0476, Dev MAE: 0.0574, Test MAE: 0.0566
+Train R²: 0.9077, Dev R²: 0.8612, Test R²: 0.8938
+Train Residual: 0.0476, Dev Residual: 0.0574, Test Residual: 0.0566
+Time: 144.60s, Latency: 0.0001s, Overfit Gap: -0.0012
+
+
+
+
+
+
+
+Mid Group Results:
+Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0037, Dev MSE: 0.0051, Test MSE: 0.0044
+Train MAE: 0.0449, Dev MAE: 0.0541, Test MAE: 0.0538
+Train R²: 0.9145, Dev R²: 0.8643, Test R²: 0.9018
+Train Residual: 0.0449, Dev Residual: 0.0541, Test Residual: 0.0538
+Time: 52.03s, Latency: 0.0001s, Overfit Gap: -0.0014
+Advanced-Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0037, Dev MSE: 0.0046, Test MSE: 0.0044
+Train MAE: 0.0450, Dev MAE: 0.0509, Test MAE: 0.0553
+Train R²: 0.9149, Dev R²: 0.8796, Test R²: 0.9014
+Train Residual: 0.0450, Dev Residual: 0.0509, Test Residual: 0.0553
+Time: 157.27s, Latency: 0.0002s, Overfit Gap: -0.0009
+Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0040, Dev MSE: 0.0051, Test MSE: 0.0036
+Train MAE: 0.0474, Dev MAE: 0.0550, Test MAE: 0.0483
+Train R²: 0.9090, Dev R²: 0.8654, Test R²: 0.9193
+Train Residual: 0.0474, Dev Residual: 0.0550, Test Residual: 0.0483
+Time: 77.16s, Latency: 0.0001s, Overfit Gap: -0.0011
+Advanced-Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0035, Dev MSE: 0.0050, Test MSE: 0.0037
+Train MAE: 0.0436, Dev MAE: 0.0551, Test MAE: 0.0496
+Train R²: 0.9192, Dev R²: 0.8675, Test R²: 0.9167
+Train Residual: 0.0436, Dev Residual: 0.0551, Test Residual: 0.0496
+Time: 258.48s, Latency: 0.0002s, Overfit Gap: -0.0015
+
+
+
+
+
+
+
+
+
+
+Large Group Results:
+Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0028, Dev MSE: 0.0037, Test MSE: 0.0039
+Train MAE: 0.0386, Dev MAE: 0.0482, Test MAE: 0.0479
+Train R²: 0.9351, Dev R²: 0.9019, Test R²: 0.9128
+Train Residual: 0.0386, Dev Residual: 0.0482, Test Residual: 0.0479
+Time: 58.35s, Latency: 0.0002s, Overfit Gap: -0.0009
+Advanced-Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0031, Dev MSE: 0.0051, Test MSE: 0.0044
+Train MAE: 0.0422, Dev MAE: 0.0516, Test MAE: 0.0524
+Train R²: 0.9280, Dev R²: 0.8659, Test R²: 0.9004
+Train Residual: 0.0422, Dev Residual: 0.0516, Test Residual: 0.0524
+Time: 174.49s, Latency: 0.0002s, Overfit Gap: -0.0019
+Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0030, Dev MSE: 0.0044, Test MSE: 0.0045
+Train MAE: 0.0398, Dev MAE: 0.0553, Test MAE: 0.0534
+Train R²: 0.9302, Dev R²: 0.8827, Test R²: 0.8988
+Train Residual: 0.0398, Dev Residual: 0.0553, Test Residual: 0.0534
+Time: 84.95s, Latency: 0.0002s, Overfit Gap: -0.0014
+Advanced-Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0032, Dev MSE: 0.0066, Test MSE: 0.0039
+Train MAE: 0.0418, Dev MAE: 0.0612, Test MAE: 0.0486
+Train R²: 0.9261, Dev R²: 0.8253, Test R²: 0.9116
+Train Residual: 0.0418, Dev Residual: 0.0612, Test Residual: 0.0486
+Time: 280.66s, Latency: 0.0003s, Overfit Gap: -0.0034
+
+
+
+
+
+
+
+
+Long Group Results:
+Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0435, Dev MSE: 0.0389, Test MSE: 0.0446
+Train MAE: 0.1681, Dev MAE: 0.1610, Test MAE: 0.1716
+Train R²: -0.0002, Dev R²: -0.0278, Test R²: -0.0041
+Train Residual: 0.1681, Dev Residual: 0.1610, Test Residual: 0.1716
+Time: 50.12s, Latency: 0.0001s, Overfit Gap: 0.0046
+Advanced-Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0085, Dev MSE: 0.0075, Test MSE: 0.0090
+Train MAE: 0.0733, Dev MAE: 0.0754, Test MAE: 0.0838
+Train R²: 0.8040, Dev R²: 0.8010, Test R²: 0.7972
+Train Residual: 0.0733, Dev Residual: 0.0754, Test Residual: 0.0838
+Time: 180.23s, Latency: 0.0003s, Overfit Gap: 0.0010
+Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0037, Dev MSE: 0.0042, Test MSE: 0.0038
+Train MAE: 0.0449, Dev MAE: 0.0478, Test MAE: 0.0502
+Train R²: 0.9155, Dev R²: 0.8885, Test R²: 0.9154
+Train Residual: 0.0449, Dev Residual: 0.0478, Test Residual: 0.0502
+Time: 100.73s, Latency: 0.0002s, Overfit Gap: -0.0005
+Advanced-Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0033, Dev MSE: 0.0040, Test MSE: 0.0037
+Train MAE: 0.0432, Dev MAE: 0.0465, Test MAE: 0.0486
+Train R²: 0.9230, Dev R²: 0.8948, Test R²: 0.9164
+Train Residual: 0.0432, Dev Residual: 0.0465, Test Residual: 0.0486
+Time: 366.81s, Latency: 0.0003s, Overfit Gap: -0.0006
+
+
+
+
+
+
+
+
+Uni-Neuron Network Results Across All Groups:
+Uni-NN Small (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0043, Dev MSE: 0.0051, Test MSE: 0.0040
+Train MAE: 0.0492, Dev MAE: 0.0565, Test MAE: 0.0503
+Train R²: 0.9009, Dev R²: 0.8644, Test R²: 0.9091
+Train Residual: 0.0492, Dev Residual: 0.0565, Test Residual: 0.0503
+Time: 44.07s, Latency: 0.0002s, Overfit Gap: -0.0008
+
+Uni-NN Mid (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0040, Dev MSE: 0.0051, Test MSE: 0.0036
+Train MAE: 0.0474, Dev MAE: 0.0550, Test MAE: 0.0483
+Train R²: 0.9090, Dev R²: 0.8654, Test R²: 0.9193
+Train Residual: 0.0474, Dev Residual: 0.0550, Test Residual: 0.0483
+Time: 77.16s, Latency: 0.0001s, Overfit Gap: -0.0011
+
+Uni-NN Large (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0030, Dev MSE: 0.0044, Test MSE: 0.0045
+Train MAE: 0.0398, Dev MAE: 0.0553, Test MAE: 0.0534
+Train R²: 0.9302, Dev R²: 0.8827, Test R²: 0.8988
+Train Residual: 0.0398, Dev Residual: 0.0553, Test Residual: 0.0534
+Time: 84.95s, Latency: 0.0002s, Overfit Gap: -0.0014
+
+Uni-NN Long (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0037, Dev MSE: 0.0042, Test MSE: 0.0038
+Train MAE: 0.0449, Dev MAE: 0.0478, Test MAE: 0.0502
+Train R²: 0.9155, Dev R²: 0.8885, Test R²: 0.9154
+Train Residual: 0.0449, Dev Residual: 0.0478, Test Residual: 0.0502
+Time: 100.73s, Latency: 0.0002s, Overfit Gap: -0.0005
+
+
+
+
+
+
+LEARNING_RATE = 0.01                                            <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,
+
+Small Group Results:
+Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0057, Dev MSE: 0.0059, Test MSE: 0.0056
+Train MAE: 0.0569, Dev MAE: 0.0618, Test MAE: 0.0597
+Train R²: 0.8696, Dev R²: 0.8442, Test R²: 0.8751
+Train Residual: 0.0569, Dev Residual: 0.0618, Test Residual: 0.0597
+Time: 30.17s, Latency: 0.0001s, Overfit Gap: -0.0002
+Advanced-Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0055, Dev MSE: 0.0059, Test MSE: 0.0056
+Train MAE: 0.0568, Dev MAE: 0.0601, Test MAE: 0.0615
+Train R²: 0.8742, Dev R²: 0.8430, Test R²: 0.8733
+Train Residual: 0.0568, Dev Residual: 0.0601, Test Residual: 0.0615
+Time: 89.12s, Latency: 0.0001s, Overfit Gap: -0.0005
+Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0061, Dev MSE: 0.0059, Test MSE: 0.0060
+Train MAE: 0.0590, Dev MAE: 0.0638, Test MAE: 0.0603
+Train R²: 0.8587, Dev R²: 0.8429, Test R²: 0.8652
+Train Residual: 0.0590, Dev Residual: 0.0638, Test Residual: 0.0603
+Time: 44.84s, Latency: 0.0001s, Overfit Gap: 0.0002
+Advanced-Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0051, Dev MSE: 0.0064, Test MSE: 0.0054
+Train MAE: 0.0534, Dev MAE: 0.0590, Test MAE: 0.0604
+Train R²: 0.8832, Dev R²: 0.8321, Test R²: 0.8782
+Train Residual: 0.0534, Dev Residual: 0.0590, Test Residual: 0.0604
+Time: 147.19s, Latency: 0.0001s, Overfit Gap: -0.0013
+
+
+
+
+
+
+
+
+
+
+Mid Group Results:
+Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0062, Dev MSE: 0.0064, Test MSE: 0.0062
+Train MAE: 0.0601, Dev MAE: 0.0630, Test MAE: 0.0648
+Train R²: 0.8581, Dev R²: 0.8311, Test R²: 0.8602
+Train Residual: 0.0601, Dev Residual: 0.0630, Test Residual: 0.0648
+Time: 53.51s, Latency: 0.0001s, Overfit Gap: -0.0002
+Advanced-Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0050, Dev MSE: 0.0070, Test MSE: 0.0048
+Train MAE: 0.0535, Dev MAE: 0.0609, Test MAE: 0.0564
+Train R²: 0.8846, Dev R²: 0.8161, Test R²: 0.8929
+Train Residual: 0.0535, Dev Residual: 0.0609, Test Residual: 0.0564
+Time: 158.76s, Latency: 0.0002s, Overfit Gap: -0.0019
+Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0056, Dev MSE: 0.0054, Test MSE: 0.0061
+Train MAE: 0.0566, Dev MAE: 0.0587, Test MAE: 0.0637
+Train R²: 0.8717, Dev R²: 0.8571, Test R²: 0.8622
+Train Residual: 0.0566, Dev Residual: 0.0587, Test Residual: 0.0637
+Time: 77.33s, Latency: 0.0001s, Overfit Gap: 0.0002
+Advanced-Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0046, Dev MSE: 0.0059, Test MSE: 0.0054
+Train MAE: 0.0519, Dev MAE: 0.0596, Test MAE: 0.0599
+Train R²: 0.8942, Dev R²: 0.8450, Test R²: 0.8789
+Train Residual: 0.0519, Dev Residual: 0.0596, Test Residual: 0.0599
+Time: 252.28s, Latency: 0.0002s, Overfit Gap: -0.0013
+
+
+
+
+Large Group Results:
+Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0050, Dev MSE: 0.0053, Test MSE: 0.0053
+Train MAE: 0.0535, Dev MAE: 0.0594, Test MAE: 0.0567
+Train R²: 0.8845, Dev R²: 0.8591, Test R²: 0.8798
+Train Residual: 0.0535, Dev Residual: 0.0594, Test Residual: 0.0567
+Time: 64.82s, Latency: 0.0001s, Overfit Gap: -0.0003
+Advanced-Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0043, Dev MSE: 0.0065, Test MSE: 0.0054
+Train MAE: 0.0489, Dev MAE: 0.0581, Test MAE: 0.0605
+Train R²: 0.9016, Dev R²: 0.8292, Test R²: 0.8789
+Train Residual: 0.0489, Dev Residual: 0.0581, Test Residual: 0.0605
+Time: 177.55s, Latency: 0.0002s, Overfit Gap: -0.0022
+Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0051, Dev MSE: 0.0057, Test MSE: 0.0053
+Train MAE: 0.0530, Dev MAE: 0.0611, Test MAE: 0.0589
+Train R²: 0.8834, Dev R²: 0.8496, Test R²: 0.8811
+Train Residual: 0.0530, Dev Residual: 0.0611, Test Residual: 0.0589
+Time: 85.83s, Latency: 0.0002s, Overfit Gap: -0.0006
+Advanced-Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0040, Dev MSE: 0.0057, Test MSE: 0.0042
+Train MAE: 0.0471, Dev MAE: 0.0578, Test MAE: 0.0545
+Train R²: 0.9074, Dev R²: 0.8488, Test R²: 0.9048
+Train Residual: 0.0471, Dev Residual: 0.0578, Test Residual: 0.0545
+Time: 277.55s, Latency: 0.0003s, Overfit Gap: -0.0017
+
+
+
+
+
+
+
+
+Long Group Results:
+Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0434, Dev MSE: 0.0388, Test MSE: 0.0446
+Train MAE: 0.1681, Dev MAE: 0.1609, Test MAE: 0.1716
+Train R²: 0.0003, Dev R²: -0.0263, Test R²: -0.0034
+Train Residual: 0.1681, Dev Residual: 0.1609, Test Residual: 0.1716
+Time: 48.78s, Latency: 0.0001s, Overfit Gap: 0.0046
+Advanced-Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0160, Dev MSE: 0.0163, Test MSE: 0.0170
+Train MAE: 0.1009, Dev MAE: 0.0992, Test MAE: 0.1140
+Train R²: 0.6329, Dev R²: 0.5696, Test R²: 0.6166
+Train Residual: 0.1009, Dev Residual: 0.0992, Test Residual: 0.1140
+Time: 182.11s, Latency: 0.0002s, Overfit Gap: -0.0003
+Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0058, Dev MSE: 0.0058, Test MSE: 0.0059
+Train MAE: 0.0569, Dev MAE: 0.0616, Test MAE: 0.0624
+Train R²: 0.8669, Dev R²: 0.8459, Test R²: 0.8672
+Train Residual: 0.0569, Dev Residual: 0.0616, Test Residual: 0.0624
+Time: 103.27s, Latency: 0.0002s, Overfit Gap: -0.0000
+Advanced-Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0043, Dev MSE: 0.0047, Test MSE: 0.0047
+Train MAE: 0.0509, Dev MAE: 0.0567, Test MAE: 0.0570
+Train R²: 0.9012, Dev R²: 0.8752, Test R²: 0.8943
+Train Residual: 0.0509, Dev Residual: 0.0567, Test Residual: 0.0570
+Time: 369.13s, Latency: 0.0005s, Overfit Gap: -0.0004
+
+
+
+
+Uni-Neuron Network Results Across All Groups:
+Uni-NN Small (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0061, Dev MSE: 0.0059, Test MSE: 0.0060
+Train MAE: 0.0590, Dev MAE: 0.0638, Test MAE: 0.0603
+Train R²: 0.8587, Dev R²: 0.8429, Test R²: 0.8652
+Train Residual: 0.0590, Dev Residual: 0.0638, Test Residual: 0.0603
+Time: 44.84s, Latency: 0.0001s, Overfit Gap: 0.0002
+
+Uni-NN Mid (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0056, Dev MSE: 0.0054, Test MSE: 0.0061
+Train MAE: 0.0566, Dev MAE: 0.0587, Test MAE: 0.0637
+Train R²: 0.8717, Dev R²: 0.8571, Test R²: 0.8622
+Train Residual: 0.0566, Dev Residual: 0.0587, Test Residual: 0.0637
+Time: 77.33s, Latency: 0.0001s, Overfit Gap: 0.0002
+
+Uni-NN Large (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0051, Dev MSE: 0.0057, Test MSE: 0.0053
+Train MAE: 0.0530, Dev MAE: 0.0611, Test MAE: 0.0589
+Train R²: 0.8834, Dev R²: 0.8496, Test R²: 0.8811
+Train Residual: 0.0530, Dev Residual: 0.0611, Test Residual: 0.0589
+Time: 85.83s, Latency: 0.0002s, Overfit Gap: -0.0006
+
+Uni-NN Long (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0058, Dev MSE: 0.0058, Test MSE: 0.0059
+Train MAE: 0.0569, Dev MAE: 0.0616, Test MAE: 0.0624
+Train R²: 0.8669, Dev R²: 0.8459, Test R²: 0.8672
+Train Residual: 0.0569, Dev Residual: 0.0616, Test Residual: 0.0624
+Time: 103.27s, Latency: 0.0002s, Overfit Gap: -0.0000
+
+
+
+
+
+
+LEARNING_RATE = 0.025                                            <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Small Group Results:
+Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0057, Dev MSE: 0.0058, Test MSE: 0.0061
+Train MAE: 0.0581, Dev MAE: 0.0611, Test MAE: 0.0642
+Train R²: 0.8681, Dev R²: 0.8480, Test R²: 0.8636
+Train Residual: 0.0581, Dev Residual: 0.0611, Test Residual: 0.0642
+Time: 31.70s, Latency: 0.0001s, Overfit Gap: -0.0000
+Advanced-Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0051, Dev MSE: 0.0071, Test MSE: 0.0069
+Train MAE: 0.0543, Dev MAE: 0.0629, Test MAE: 0.0651
+Train R²: 0.8817, Dev R²: 0.8131, Test R²: 0.8446
+Train Residual: 0.0543, Dev Residual: 0.0629, Test Residual: 0.0651
+Time: 89.02s, Latency: 0.0001s, Overfit Gap: -0.0019
+Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0058, Dev MSE: 0.0061, Test MSE: 0.0059
+Train MAE: 0.0574, Dev MAE: 0.0575, Test MAE: 0.0592
+Train R²: 0.8662, Dev R²: 0.8400, Test R²: 0.8678
+Train Residual: 0.0574, Dev Residual: 0.0575, Test Residual: 0.0592
+Time: 43.26s, Latency: 0.0001s, Overfit Gap: -0.0002
+Advanced-Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0044, Dev MSE: 0.0049, Test MSE: 0.0046
+Train MAE: 0.0493, Dev MAE: 0.0540, Test MAE: 0.0534
+Train R²: 0.8998, Dev R²: 0.8709, Test R²: 0.8955
+Train Residual: 0.0493, Dev Residual: 0.0540, Test Residual: 0.0534
+Time: 147.30s, Latency: 0.0002s, Overfit Gap: -0.0005
+
+
+
+
+
+
+
+
+
+
+
+Mid Group Results:
+Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0046, Dev MSE: 0.0053, Test MSE: 0.0056
+Train MAE: 0.0509, Dev MAE: 0.0568, Test MAE: 0.0606
+Train R²: 0.8935, Dev R²: 0.8602, Test R²: 0.8749
+Train Residual: 0.0509, Dev Residual: 0.0568, Test Residual: 0.0606
+Time: 53.83s, Latency: 0.0001s, Overfit Gap: -0.0007
+Advanced-Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0041, Dev MSE: 0.0058, Test MSE: 0.0043
+Train MAE: 0.0480, Dev MAE: 0.0570, Test MAE: 0.0536
+Train R²: 0.9055, Dev R²: 0.8461, Test R²: 0.9036
+Train Residual: 0.0480, Dev Residual: 0.0570, Test Residual: 0.0536
+Time: 157.84s, Latency: 0.0002s, Overfit Gap: -0.0017
+Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0054, Dev MSE: 0.0056, Test MSE: 0.0054
+Train MAE: 0.0557, Dev MAE: 0.0607, Test MAE: 0.0610
+Train R²: 0.8764, Dev R²: 0.8519, Test R²: 0.8779
+Train Residual: 0.0557, Dev Residual: 0.0607, Test Residual: 0.0610
+Time: 78.51s, Latency: 0.0001s, Overfit Gap: -0.0002
+Advanced-Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0037, Dev MSE: 0.0058, Test MSE: 0.0042
+Train MAE: 0.0456, Dev MAE: 0.0589, Test MAE: 0.0524
+Train R²: 0.9160, Dev R²: 0.8474, Test R²: 0.9062
+Train Residual: 0.0456, Dev Residual: 0.0589, Test Residual: 0.0524
+Time: 250.80s, Latency: 0.0045s, Overfit Gap: -0.0021
+
+
+
+
+
+
+Large Group Results:
+Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0038, Dev MSE: 0.0053, Test MSE: 0.0049
+Train MAE: 0.0461, Dev MAE: 0.0581, Test MAE: 0.0559
+Train R²: 0.9115, Dev R²: 0.8598, Test R²: 0.8898
+Train Residual: 0.0461, Dev Residual: 0.0581, Test Residual: 0.0559
+Time: 59.01s, Latency: 0.0001s, Overfit Gap: -0.0015
+Advanced-Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0035, Dev MSE: 0.0062, Test MSE: 0.0036
+Train MAE: 0.0443, Dev MAE: 0.0605, Test MAE: 0.0497
+Train R²: 0.9200, Dev R²: 0.8355, Test R²: 0.9182
+Train Residual: 0.0443, Dev Residual: 0.0605, Test Residual: 0.0497
+Time: 168.04s, Latency: 0.0002s, Overfit Gap: -0.0028
+Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0038, Dev MSE: 0.0046, Test MSE: 0.0043
+Train MAE: 0.0459, Dev MAE: 0.0571, Test MAE: 0.0516
+Train R²: 0.9121, Dev R²: 0.8772, Test R²: 0.9034
+Train Residual: 0.0459, Dev Residual: 0.0571, Test Residual: 0.0516
+Time: 81.65s, Latency: 0.0001s, Overfit Gap: -0.0008
+Advanced-Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0049, Dev MSE: 0.0054, Test MSE: 0.0044
+Train MAE: 0.0535, Dev MAE: 0.0569, Test MAE: 0.0551
+Train R²: 0.8873, Dev R²: 0.8578, Test R²: 0.8999
+Train Residual: 0.0535, Dev Residual: 0.0569, Test Residual: 0.0551
+Time: 271.11s, Latency: 0.0002s, Overfit Gap: -0.0005
+
+
+
+
+
+
+
+Long Group Results:
+Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0435, Dev MSE: 0.0389, Test MSE: 0.0446
+Train MAE: 0.1681, Dev MAE: 0.1610, Test MAE: 0.1716
+Train R²: -0.0001, Dev R²: -0.0270, Test R²: -0.0038
+Train Residual: 0.1681, Dev Residual: 0.1610, Test Residual: 0.1716
+Time: 49.01s, Latency: 0.0002s, Overfit Gap: 0.0046
+Advanced-Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0105, Dev MSE: 0.0113, Test MSE: 0.0123
+Train MAE: 0.0806, Dev MAE: 0.0892, Test MAE: 0.0939
+Train R²: 0.7586, Dev R²: 0.7006, Test R²: 0.7225
+Train Residual: 0.0806, Dev Residual: 0.0892, Test Residual: 0.0939
+Time: 177.23s, Latency: 0.0002s, Overfit Gap: -0.0008
+Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0048, Dev MSE: 0.0048, Test MSE: 0.0048
+Train MAE: 0.0533, Dev MAE: 0.0545, Test MAE: 0.0572
+Train R²: 0.8895, Dev R²: 0.8721, Test R²: 0.8925
+Train Residual: 0.0533, Dev Residual: 0.0545, Test Residual: 0.0572
+Time: 100.55s, Latency: 0.0003s, Overfit Gap: -0.0000
+Advanced-Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0038, Dev MSE: 0.0045, Test MSE: 0.0043
+Train MAE: 0.0467, Dev MAE: 0.0536, Test MAE: 0.0515
+Train R²: 0.9123, Dev R²: 0.8802, Test R²: 0.9034
+Train Residual: 0.0467, Dev Residual: 0.0536, Test Residual: 0.0515
+Time: 360.25s, Latency: 0.0003s, Overfit Gap: -0.0007
+
+
+
+
+Uni-Neuron Network Results Across All Groups:
+Uni-NN Small (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0058, Dev MSE: 0.0061, Test MSE: 0.0059
+Train MAE: 0.0574, Dev MAE: 0.0575, Test MAE: 0.0592
+Train R²: 0.8662, Dev R²: 0.8400, Test R²: 0.8678
+Train Residual: 0.0574, Dev Residual: 0.0575, Test Residual: 0.0592
+Time: 43.26s, Latency: 0.0001s, Overfit Gap: -0.0002
+
+Uni-NN Mid (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0054, Dev MSE: 0.0056, Test MSE: 0.0054
+Train MAE: 0.0557, Dev MAE: 0.0607, Test MAE: 0.0610
+Train R²: 0.8764, Dev R²: 0.8519, Test R²: 0.8779
+Train Residual: 0.0557, Dev Residual: 0.0607, Test Residual: 0.0610
+Time: 78.51s, Latency: 0.0001s, Overfit Gap: -0.0002
+
+Uni-NN Large (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0038, Dev MSE: 0.0046, Test MSE: 0.0043
+Train MAE: 0.0459, Dev MAE: 0.0571, Test MAE: 0.0516
+Train R²: 0.9121, Dev R²: 0.8772, Test R²: 0.9034
+Train Residual: 0.0459, Dev Residual: 0.0571, Test Residual: 0.0516
+Time: 81.65s, Latency: 0.0001s, Overfit Gap: -0.0008
+
+Uni-NN Long (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0048, Dev MSE: 0.0048, Test MSE: 0.0048
+Train MAE: 0.0533, Dev MAE: 0.0545, Test MAE: 0.0572
+Train R²: 0.8895, Dev R²: 0.8721, Test R²: 0.8925
+Train Residual: 0.0533, Dev Residual: 0.0545, Test Residual: 0.0572
+Time: 100.55s, Latency: 0.0003s, Overfit Gap: -0.0000
+
+
+
+
+
+LEARNING_RATE = 0.05                                       <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Small Group Results:
+Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0054, Dev MSE: 0.0052, Test MSE: 0.0065
+Train MAE: 0.0563, Dev MAE: 0.0583, Test MAE: 0.0647
+Train R²: 0.8765, Dev R²: 0.8629, Test R²: 0.8548
+Train Residual: 0.0563, Dev Residual: 0.0583, Test Residual: 0.0647
+Time: 34.44s, Latency: 0.0000s, Overfit Gap: 0.0002
+Advanced-Normal Network (Structure: [8, 10, 6, 1], 163 params):
+Train MSE: 0.0046, Dev MSE: 0.0057, Test MSE: 0.0041
+Train MAE: 0.0520, Dev MAE: 0.0564, Test MAE: 0.0536
+Train R²: 0.8943, Dev R²: 0.8496, Test R²: 0.9082
+Train Residual: 0.0520, Dev Residual: 0.0564, Test Residual: 0.0536
+Time: 88.06s, Latency: 0.0002s, Overfit Gap: -0.0011
+Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0042, Dev MSE: 0.0049, Test MSE: 0.0044
+Train MAE: 0.0478, Dev MAE: 0.0570, Test MAE: 0.0521
+Train R²: 0.9044, Dev R²: 0.8703, Test R²: 0.9015
+Train Residual: 0.0478, Dev Residual: 0.0570, Test Residual: 0.0521
+Time: 44.75s, Latency: 0.0001s, Overfit Gap: -0.0008
+Advanced-Uni Network (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0041, Dev MSE: 0.0045, Test MSE: 0.0046
+Train MAE: 0.0475, Dev MAE: 0.0516, Test MAE: 0.0565
+Train R²: 0.9059, Dev R²: 0.8824, Test R²: 0.8969
+Train Residual: 0.0475, Dev Residual: 0.0516, Test Residual: 0.0565
+Time: 147.78s, Latency: 0.0002s, Overfit Gap: -0.0004
+
+
+
+
+
+Mid Group Results:
+Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0040, Dev MSE: 0.0038, Test MSE: 0.0038
+Train MAE: 0.0476, Dev MAE: 0.0492, Test MAE: 0.0525
+Train R²: 0.9074, Dev R²: 0.9004, Test R²: 0.9149
+Train Residual: 0.0476, Dev Residual: 0.0492, Test Residual: 0.0525
+Time: 54.93s, Latency: 0.0001s, Overfit Gap: 0.0003
+Advanced-Normal Network (Structure: [8, 14, 10, 1], 287 params):
+Train MSE: 0.0037, Dev MSE: 0.0063, Test MSE: 0.0041
+Train MAE: 0.0466, Dev MAE: 0.0602, Test MAE: 0.0527
+Train R²: 0.9144, Dev R²: 0.8344, Test R²: 0.9086
+Train Residual: 0.0466, Dev Residual: 0.0602, Test Residual: 0.0527
+Time: 158.69s, Latency: 0.0002s, Overfit Gap: -0.0025
+Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0036, Dev MSE: 0.0051, Test MSE: 0.0041
+Train MAE: 0.0443, Dev MAE: 0.0533, Test MAE: 0.0489
+Train R²: 0.9178, Dev R²: 0.8654, Test R²: 0.9069
+Train Residual: 0.0443, Dev Residual: 0.0533, Test Residual: 0.0489
+Time: 77.51s, Latency: 0.0001s, Overfit Gap: -0.0015
+Advanced-Uni Network (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0039, Dev MSE: 0.0059, Test MSE: 0.0046
+Train MAE: 0.0467, Dev MAE: 0.0571, Test MAE: 0.0554
+Train R²: 0.9104, Dev R²: 0.8446, Test R²: 0.8962
+Train Residual: 0.0467, Dev Residual: 0.0571, Test Residual: 0.0554
+Time: 254.08s, Latency: 0.0003s, Overfit Gap: -0.0020
+
+
+
+
+
+Large Group Results:
+Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0029, Dev MSE: 0.0052, Test MSE: 0.0043
+Train MAE: 0.0395, Dev MAE: 0.0534, Test MAE: 0.0503
+Train R²: 0.9326, Dev R²: 0.8638, Test R²: 0.9029
+Train Residual: 0.0395, Dev Residual: 0.0534, Test Residual: 0.0503
+Time: 58.56s, Latency: 0.0001s, Overfit Gap: -0.0022
+Advanced-Normal Network (Structure: [8, 24, 16, 1], 633 params):
+Train MSE: 0.0032, Dev MSE: 0.0055, Test MSE: 0.0034
+Train MAE: 0.0428, Dev MAE: 0.0551, Test MAE: 0.0477
+Train R²: 0.9258, Dev R²: 0.8559, Test R²: 0.9243
+Train Residual: 0.0428, Dev Residual: 0.0551, Test Residual: 0.0477
+Time: 175.27s, Latency: 0.0002s, Overfit Gap: -0.0022
+Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0026, Dev MSE: 0.0036, Test MSE: 0.0042
+Train MAE: 0.0375, Dev MAE: 0.0480, Test MAE: 0.0462
+Train R²: 0.9404, Dev R²: 0.9058, Test R²: 0.9062
+Train Residual: 0.0375, Dev Residual: 0.0480, Test Residual: 0.0462
+Time: 86.02s, Latency: 0.0001s, Overfit Gap: -0.0010
+Advanced-Uni Network (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0030, Dev MSE: 0.0046, Test MSE: 0.0031
+Train MAE: 0.0415, Dev MAE: 0.0531, Test MAE: 0.0436
+Train R²: 0.9302, Dev R²: 0.8789, Test R²: 0.9308
+Train Residual: 0.0415, Dev Residual: 0.0531, Test Residual: 0.0436
+Time: 285.87s, Latency: 0.0034s, Overfit Gap: -0.0016
+
+
+
+
+
+Long Group Results:
+Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0065, Dev MSE: 0.0049, Test MSE: 0.0064
+Train MAE: 0.0634, Dev MAE: 0.0555, Test MAE: 0.0661
+Train R²: 0.8510, Dev R²: 0.8704, Test R²: 0.8555
+Train Residual: 0.0634, Dev Residual: 0.0555, Test Residual: 0.0661
+Time: 49.66s, Latency: 0.0001s, Overfit Gap: 0.0016
+Advanced-Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
+Train MSE: 0.0072, Dev MSE: 0.0099, Test MSE: 0.0070
+Train MAE: 0.0661, Dev MAE: 0.0776, Test MAE: 0.0688
+Train R²: 0.8351, Dev R²: 0.7381, Test R²: 0.8421
+Train Residual: 0.0661, Dev Residual: 0.0776, Test Residual: 0.0688
+Time: 181.99s, Latency: 0.0002s, Overfit Gap: -0.0027
+Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0033, Dev MSE: 0.0046, Test MSE: 0.0032
+Train MAE: 0.0426, Dev MAE: 0.0510, Test MAE: 0.0433
+Train R²: 0.9249, Dev R²: 0.8778, Test R²: 0.9276
+Train Residual: 0.0426, Dev Residual: 0.0510, Test Residual: 0.0433
+Time: 102.49s, Latency: 0.0002s, Overfit Gap: -0.0014
+Advanced-Uni Network (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0031, Dev MSE: 0.0035, Test MSE: 0.0035
+Train MAE: 0.0415, Dev MAE: 0.0443, Test MAE: 0.0469
+Train R²: 0.9287, Dev R²: 0.9077, Test R²: 0.9210
+Train Residual: 0.0415, Dev Residual: 0.0443, Test Residual: 0.0469
+Time: 372.71s, Latency: 0.0003s, Overfit Gap: -0.0004
+
+
+Uni-Neuron Network Results Across All Groups:
+Uni-NN Small (Structure: [8, 6, 6, 1], 165 params):
+Train MSE: 0.0042, Dev MSE: 0.0049, Test MSE: 0.0044
+Train MAE: 0.0478, Dev MAE: 0.0570, Test MAE: 0.0521
+Train R²: 0.9044, Dev R²: 0.8703, Test R²: 0.9015
+Train Residual: 0.0478, Dev Residual: 0.0570, Test Residual: 0.0521
+Time: 44.75s, Latency: 0.0001s, Overfit Gap: -0.0008
+
+Uni-NN Mid (Structure: [8, 13, 6, 1], 277 params):
+Train MSE: 0.0036, Dev MSE: 0.0051, Test MSE: 0.0041
+Train MAE: 0.0443, Dev MAE: 0.0533, Test MAE: 0.0489
+Train R²: 0.9178, Dev R²: 0.8654, Test R²: 0.9069
+Train Residual: 0.0443, Dev Residual: 0.0533, Test Residual: 0.0489
+Time: 77.51s, Latency: 0.0001s, Overfit Gap: -0.0015
+
+Uni-NN Large (Structure: [8, 20, 14, 1], 629 params):
+Train MSE: 0.0026, Dev MSE: 0.0036, Test MSE: 0.0042
+Train MAE: 0.0375, Dev MAE: 0.0480, Test MAE: 0.0462
+Train R²: 0.9404, Dev R²: 0.9058, Test R²: 0.9062
+Train Residual: 0.0375, Dev Residual: 0.0480, Test Residual: 0.0462
+Time: 86.02s, Latency: 0.0001s, Overfit Gap: -0.0010
+
+Uni-NN Long (Structure: [8, 6, 4, 4, 2, 2, 1], 313 params):
+Train MSE: 0.0033, Dev MSE: 0.0046, Test MSE: 0.0032
+Train MAE: 0.0426, Dev MAE: 0.0510, Test MAE: 0.0433
+Train R²: 0.9249, Dev R²: 0.8778, Test R²: 0.9276
+Train Residual: 0.0426, Dev Residual: 0.0510, Test Residual: 0.0433
+Time: 102.49s, Latency: 0.0002s, Overfit Gap: -0.0014
+
+
+
+
+
+
+
+
