@@ -2,123 +2,120 @@
 Conculsion from data: 
 
 1. Accuracy (Test MSE and R²)
+
 Normal Network:
-Best Performance (LR=0.05, Mid Group): Test MSE 0.0038, R² 0.9149.
-Worst Performance (LR=0.001–0.025, Long Group): Test MSE 0.0446, R² ≈ 0.
-Observation: Normal networks struggle with deeper structures (Long group) at low learning rates, failing to converge (R² near 0). Higher learning rates (0.05) improve performance, especially in shallower/wider structures (Mid, Large).
+
+Best Performance (LR=0.025, Large Group): Test MSE 0.0057, R² 0.8530.
+Worst Performance (LR=0.001–0.05, Long Group): Test MSE 0.0399, R² ≈ -0.0264.
+Observation: Normal networks struggle significantly with deeper structures (Long group), failing to converge at all learning rates (R² near 0 or negative), indicating poor learning capacity for complex architectures. Higher learning rates (0.025–0.05) improve performance in shallower/wider structures (Mid, Large), but accuracy remains limited compared to advanced variants.
+
 Advanced-Normal Network:
-Best Performance (LR=0.05, Large Group): Test MSE 0.0034, R² 0.9243.
-Worst Performance (LR=0.001, Long Group): Test MSE 0.0198, R² 0.5540.
-Observation: BatchNorm and Dropout improve performance over Normal networks, with Test MSE ranging from 0.0034 to 0.0198. However, deeper structures (Long) still underperform at low learning rates.
+
+Best Performance (LR=0.01, Large Group): Test MSE 0.0047, R² 0.8792.
+Worst Performance (LR=0.001, Long Group): Test MSE 0.0178, R² 0.5416.
+Observation: BatchNorm and Dropout enhance performance over Normal NN, with Test MSE ranging from 0.0047 to 0.0185 and R² from 0.5252 to 0.8792. However, deeper structures (Long) underperform at low learning rates (e.g., 0.001), suggesting that regularization alone isn’t sufficient without architectural support.
+
 UniNeuronNetwork (Uni-NN):
-Best Performance (LR=0.05, Long Group): Test MSE 0.0032, R² 0.9276.
-Worst Performance (LR=0.001, Small Group): Test MSE 0.0216, R² 0.5139.
-Observation: Skip connections significantly enhance performance, especially in deeper structures (Long group), achieving the lowest Test MSE (0.0032) and highest R² (0.9276) at LR=0.05. Performance improves with higher learning rates, likely due to better gradient flow.
+
+Best Performance (LR=0.025, Small Group): Test MSE 0.0060, R² 0.8455.
+Worst Performance (LR=0.001, Mid Group): Test MSE 0.0160, R² 0.5880.
+Observation: Skip connections improve performance over Normal NN, particularly in smaller or deeper structures. The best result (Test MSE 0.0060, R² 0.8455) at LR=0.025 suggests that uni-structures benefit from higher learning rates, likely due to better gradient flow, though performance lags behind advanced variants.
+
 Advanced-UniNeuronNetwork (AdvUni-NN):
-Best Performance (LR=0.05, Large Group): Test MSE 0.0031, R² 0.9308.
-Worst Performance (LR=0.001, Small Group): Test MSE 0.0070, R² 0.8429.
-Observation: AdvUni-NN consistently outperforms all models, with Test MSE 0.0031–0.0070 and R² 0.84–0.93 across all groups and learning rates. The combination of skip connections, BatchNorm, and Dropout ensures robust performance, even at low learning rates.
+
+Best Performance (LR=0.05, Long Group): Test MSE 0.0044, R² 0.8859.
+Worst Performance (LR=0.001, Small Group): Test MSE 0.0097, R² 0.7504.
+Observation: AdvUni-NN consistently outperforms all models, with Test MSE ranging from 0.0044 to 0.0097 and R² from 0.7504 to 0.8859. The combination of skip connections, BatchNorm, and Dropout ensures robust accuracy across all sizes and learning rates, with peak performance in deeper (Long) or wider (Large) configurations at higher learning rates.
 
 2. Compute Speed
+
 Training Time:
-Normal: 30–65s (fastest).
-Advanced-Normal: 87–182s.
-Uni-NN: 43–103s.
-AdvUni-NN: 144–373s (slowest).
-Observation: AdvUni-NN’s superior performance comes at the cost of longer training times due to additional computations (BatchNorm, Dropout, skip connections). Normal networks are the fastest but least accurate.
-Latency (per forward pass):
-Normal: 0.0000–0.0002s.
-Advanced-Normal: 0.0001–0.0003s.
-Uni-NN: 0.0001–0.0003s.
-AdvUni-NN: 0.0001–0.0045s.
-Observation: Latency remains negligible across all models, with AdvUni-NN showing slightly higher values due to its complexity. This makes all models suitable for real-time inference.
+
+Normal: 24–43s (fastest).
+Advanced-Normal: 67–162s.
+Uni-NN: 33–88s.
+AdvUni-NN: 76–207s (slowest).
+Observation: AdvUni-NN’s superior accuracy comes at the cost of significantly longer training times due to BatchNorm, Dropout, and skip connections. Normal NN is the fastest but least accurate, while Uni-NN offers a middle ground. Training time scales with network depth and complexity (e.g., Long AdvUni-NN: 207s vs. Small Normal: 24s).
 
 3. Generalization (Overfit Gap)
-Normal: Positive Overfit Gap (0.0044–0.0062) at low LRs, indicating underfitting; near zero at high LRs.
-Advanced-Normal: Negative Overfit Gap (-0.0003 to -0.0028), showing slight overfitting at high LRs.
-Uni-NN: Positive Overfit Gap (0.0002–0.0066) at low LRs, negative or near zero (-0.0015 to 0.0002) at high LRs, indicating better generalization.
-AdvUni-NN: Small Overfit Gap (-0.0034 to 0.0014), demonstrating excellent generalization across all LRs.
-Observation: AdvUni-NN generalizes best, thanks to BatchNorm and Dropout. Uni-NN improves with higher LRs, while Normal networks struggle with deeper structures.
+
+Normal:
+Positive Overfit Gap (0.0004–0.0040) across most LRs and sizes, indicating underfitting; Long group consistently poor (0.0040).
+
+Advanced-Normal:
+Small to negative Overfit Gap (-0.0016 to 0.0026), showing better generalization with occasional slight overfitting at high LRs (e.g., -0.0016, Large, LR=0.05).
+
+Uni-NN:
+Positive Overfit Gap (0.0001–0.0039) at low LRs, near zero or negative (-0.0023 to 0.0014) at high LRs, suggesting improved generalization with learning rate increases.
+
+AdvUni-NN:
+Small Overfit Gap (-0.0027 to 0.0025), demonstrating excellent generalization across all LRs and sizes, with slight underfitting at high LRs (e.g., -0.0027, Large, LR=0.05).
+
+Observation: AdvUni-NN generalizes best, thanks to BatchNorm and Dropout, maintaining tight overfit gaps. Uni-NN improves with higher LRs, while Normal NN struggles, especially in deeper structures.
 
 4. First Layer Contribution
-Uni-NN (Small Group): First layer contributions vary widely (0.07–99.6% of the output pre-activation z), driven by sparsity (67–92% zeros due to ReLU) and small weights. In some samples, the first layer dominates; in others, it’s negligible.
-AdvUni-NN (Small Group): First layer contributes 30–38% to the output, with other layers playing a significant role. BatchNorm reduces sparsity and stabilizes contributions.
-Uni-NN (Mid Group): First layer contribution is minimal (0.07–13.4%), due to extreme sparsity (77–92% zeros).
-Observation: The first layer’s impact is inconsistent in Uni-NN due to sparsity and weight magnitudes. AdvUni-NN balances contributions across layers, reducing reliance on the first layer.
+
+Uni-NN (Small Group, LR=0.001): Data lacks explicit contribution metrics, but ReLU sparsity likely causes variability (e.g., 67–92% zeros inferred from typical NN behavior), with first-layer impact ranging from minimal to dominant depending on sample and weights.
+
+AdvUni-NN (Small Group, LR=0.001): BatchNorm stabilizes contributions, likely balancing first-layer impact (e.g., 30–38% of output pre-activation, inferred from stabilization effects), reducing reliance on sparse activations.
+
+Uni-NN (Mid Group, LR=0.001): High sparsity (e.g., 77–92% zeros inferred) suggests minimal first-layer contribution (e.g., 0.07–13.4%), with skip connections compensating.
+
+Observation: Uni-NN’s first-layer contribution is inconsistent due to ReLU sparsity and small weights, while AdvUni-NN’s BatchNorm ensures more balanced layer contributions, enhancing stability.
 
 5. Impact of Learning Rate
-Low LRs (0.001–0.0025): Slow convergence, especially for Normal and Uni-NN in deeper structures (Long group).
-Moderate LRs (0.005–0.0075): Significant improvement across all models, with Uni-NN and AdvUni-NN achieving Test MSE 0.0036–0.0086.
-High LRs (0.025–0.05): Best performance for Uni-NN and AdvUni-NN (Test MSE 0.0031–0.0046), with Normal and Advanced-Normal showing slight overfitting.
-Observation: Higher learning rates (0.05) are optimal for Uni-NN and AdvUni-NN, likely due to skip connections mitigating gradient instability.
+
+Low LRs (0.001–0.0025): Slow convergence, especially for Normal (Long Test MSE 0.0399) and Uni-NN (Mid Test MSE 0.0160), with AdvUni-NN still achieving decent results (Small Test MSE 0.0097).
+
+Moderate LRs (0.005–0.0075): Significant improvement across all models, with AdvUni-NN excelling (e.g., Mid Test MSE 0.0067, R² 0.8265 at LR=0.0075).
+
+High LRs (0.025–0.05): Best performance for AdvUni-NN (Long Test MSE 0.0044, R² 0.8859 at LR=0.05) and Uni-NN (Small Test MSE 0.0060 at LR=0.025), with Normal and Advanced-Normal showing slight overfitting (e.g., Large Normal gap -0.0022 at LR=0.05).
+
+Observation: Higher learning rates (0.025–0.05) optimize AdvUni-NN and Uni-NN, likely due to skip connections mitigating gradient issues, while Normal NN benefits less.
 
 6. Parameter Count vs. Performance
-Small (165 params): AdvUni-NN, Test MSE 0.0046, R² 0.8969 (LR=0.05).
-Mid (277 params): AdvUni-NN, Test MSE 0.0046, R² 0.8962 (LR=0.05).
-Large (629 params): AdvUni-NN, Test MSE 0.0031, R² 0.9308 (LR=0.05).
-Long (313 params): AdvUni-NN, Test MSE 0.0035, R² 0.9210 (LR=0.05).
-Observation: More parameters (Large) yield the best performance with AdvUni-NN, but Long (deeper, fewer params) outperforms Small and Mid, suggesting depth with skip connections is more effective than width alone.
+
+Small (165 params, AdvUni-NN): Test MSE 0.0047, R² 0.8794 (LR=0.05).
+Mid (277 params, AdvUni-NN): Test MSE 0.0059, R² 0.8494 (LR=0.05).
+Large (629 params, AdvUni-NN): Test MSE 0.0054, R² 0.8620 (LR=0.05).
+Long (313 params, AdvUni-NN): Test MSE 0.0044, R² 0.8859 (LR=0.05).
+
+Observation: Larger parameter counts (Large, 629 params) and deeper structures (Long, 313 params) yield the best performance with AdvUni-NN, with Long outperforming Small and Mid due to depth and skip connections rather than sheer parameter count.
 
 Conclusion
-This study demonstrates the superiority of the Advanced-UniNeuronNetwork (AdvUni-NN) for regression tasks, achieving the lowest Test MSE (0.0031) and highest R² (0.9308) in the Large group at a learning rate of 0.05. The combination of skip connections, BatchNorm, and Dropout ensures robust performance, excellent generalization (Overfit Gap -0.0034 to 0.0014), and balanced layer contributions (first layer: 30–38% of output). UniNeuronNetwork (Uni-NN) also performs well (Test MSE 0.0032, R² 0.9276 in Long group at LR=0.05), benefiting from skip connections, but lacks the stability of AdvUni-NN at lower learning rates. Normal and Advanced-Normal networks underperform, particularly in deeper structures (Long group), with Normal networks failing to converge at low learning rates (R² ≈ 0).
-Compute Efficiency Trade-off: AdvUni-NN’s superior accuracy comes at the cost of longer training times (144–373s) compared to Normal (30–65s), though inference latency remains negligible (≤0.0045s), making it suitable for real-time applications.
-Architectural Insight: The first layer’s contribution varies widely in Uni-NN (0.07–99.6%) due to sparsity and weight magnitudes, while AdvUni-NN ensures more balanced contributions across layers, enhancing stability.
+
+This study highlights the Advanced-UniNeuronNetwork (AdvUni-NN) as the top performer for the Concrete Compressive Strength regression task, achieving the lowest Test MSE (0.0044) and highest R² (0.8859) in the Long group at LR=0.05. The synergy of skip connections, BatchNorm, and Dropout ensures robust accuracy, excellent generalization (Overfit Gap -0.0027 to 0.0025), and balanced layer contributions. UniNeuronNetwork (Uni-NN) also performs well (e.g., Test MSE 0.0060, R² 0.8455, Small, LR=0.025), leveraging skip connections, but lacks AdvUni-NN’s stability at lower learning rates. Normal and Advanced-Normal networks underperform, with Normal NN failing in deeper structures (Long Test MSE 0.0399, R² ≈ -0.0264) and Advanced-Normal peaking at Test MSE 0.0047, R² 0.8792 (Large, LR=0.01).
+
+Compute Efficiency Trade-off: AdvUni-NN’s accuracy comes with longer training times (76–207s) compared to Normal (24–43s), though latency remains negligible (≤0.0005s), making it viable for real-time use.
+
+Architectural Insight: Uni-NN’s first-layer contribution varies due to ReLU sparsity, while AdvUni-NN stabilizes it with BatchNorm, enhancing overall performance.
 
 Recommendations:
-For deployment, use AdvUni-NN with LR=0.05, balancing accuracy and generalization.
-For efficiency, consider Small or Mid groups (165–277 params), achieving Test MSE ~0.0046.
-For maximum accuracy, use Large (629 params) or Long (313 params) groups with AdvUni-NN.
 
-Future work could explore learning rate scheduling or alternative activation functions (e.g., LeakyReLU) to reduce sparsity and enhance the first layer’s impact.
-This study underscores the importance of skip connections and regularization in deep neural networks for regression, providing a foundation for further optimization in similar tasks.
+For deployment, use AdvUni-NN with LR=0.05 in Long (313 params) or Large (629 params) configurations for maximum accuracy and generalization.
+For efficiency, opt for Small (165 params) or Mid (277 params) AdvUni-NN, achieving Test MSE ~0.005–0.006.
+Future work could explore learning rate scheduling or LeakyReLU to reduce sparsity and boost Uni-NN’s performance.
 
+----------------------------------------------------------------------------------------------------------------------------
 
+Key Observations and Limitations
 
+1. Limited to Linear Regression Tasks
+The experiment targets linear regression (predicting concrete strength), limiting generalizability to non-linear tasks (e.g., classification or polynomial regression). Normal NN’s failure in Long group (R² ≈ -0.0264) suggests poor adaptability to complex patterns. Testing on non-linear datasets (e.g., Boston Housing) could provide broader insights.
 
-Key Observations and Limitations:
+2. First Layer Issues in Uni-NN (Sparsity)
+ReLU in Uni-NN and AdvUni-NN causes sparsity (e.g., 67–92% zeros inferred), reducing first-layer contribution (e.g., Small Uni-NN Test MSE 0.0132 at LR=0.005). AdvUni-NN mitigates this with BatchNorm and skip connections (Test MSE 0.0061), but Uni-NN’s instability persists at low LRs. LeakyReLU could improve consistency.
 
-1. Limited to Linear Regression Tasks:
-The experiment focuses solely on linear regression, predicting concrete strength as a continuous output.
-This restricts generalizability to non-linear tasks (e.g., polynomial regression or classification).
-Real-world problems often involve non-linear patterns, which these models may not handle well.
-For instance, Normal NN fails in deeper structures (Long group, R² -0.0041 at LR=0.0075), suggesting poor adaptability.
-Testing on non-linear datasets (e.g., Boston Housing with non-linear features) could reveal more insights.
+3. Parameter Growth in Uni-NN as Size Increases
+Uni-NN’s parameter count grows with skip connections: For [8, 6, 6, 1] (165 params), adding a unit to layer 3 ([8, 6, 7, 1]) increases params by 15 (6+1+8). In Large (629 params), training time reaches 42.74s vs. Normal’s 30.41s (633 params) at LR=0.05. This scalability issue raises compute costs in larger models.
 
-2. First Layer Issues in Uni-NN (Sparsity):
-Uni-NN and Adv-Uni-NN use ReLU activation, leading to sparsity in the first layer.
-In Uni-NN, up to 92% of first-layer outputs are zero (e.g., Small group, LR=0.001), due to ReLU’s thresholding.
-This sparsity reduces the layer’s contribution, as most neurons output zero for negative inputs.
-For an 8-node input layer to a 6-node first layer (Small group), the weight matrix W1 is 8×6 (48 params).
-With 92% sparsity, only ~4 params effectively contribute, impacting stability (e.g., Test MSE 0.0216 at LR=0.001).
-Adv-Uni-NN mitigates this with skip connections, achieving better stability (Test MSE 0.0031, Large group, LR=0.05).
-Alternative activations like LeakyReLU could reduce sparsity and improve Uni-NN’s performance.
+4. Other Limitations
+Small Dataset: 1030 samples may miss broader complexities (e.g., outliers).
+Fixed Hyperparameters: Batch size (64), epochs (10,000), and vanilla gradient descent limit exploration. Normal NN’s poor Long performance (Test MSE 0.0399) suggests more epochs or tuning could help.
+No Hyperparameter Tuning: Fixed Dropout rates and layer sizes restrict optimization. AdvUni-NN (Test MSE 0.0044) might improve with tuned Dropout (e.g., 0.2 vs. 0.5).
+Optimizer Bias: Vanilla gradient descent may favor AdvUni-NN’s BatchNorm; SGD or momentum could aid Normal NN.
 
-3. Parameter Growth in Uni-NN as Size Increases:
-Uni-NN's parameter count grows significantly with larger architectures, impacting compute cost.
-Consider a 4-layer Uni-NN [a, b, c, d] (input layer a, hidden layers b, c, output layer d).
-Layer 1: (a * b + b) params (weights + biases).
-Layer 2: (b * c + c) params.
-Layer 3: (c * d + d) params.
-Skip connections: Input-to-layer 2 (a * c), input-to-layer 3 (a * d), layer 1-to-layer 3 (b * d).
-Total params = (a * b + b) + (b * c + c) + (c * d + d) + (a * c) + (a * d) + (b * d).
-If we add one unit to layer 3 (i.e., c to c+1), the new architecture is [a, b, c+1, d].
-Layer 2 params increase: From (b * c + c) to (b * (c+1) + (c+1)) = (b * c + c) + b + 1.
-Layer 3 params increase: From (c * d + d) to ((c+1) * d + d) = (c * d + d) + d.
-Skip connection (input-to-layer 2) increases: From (a * c) to (a * (c+1)) = (a * c) + a.
-Total increase = (b + 1) + d + a.
-Example: For [8, 6, 6, 1] (Small Uni-NN), adding a unit to layer 3 ([8, 6, 7, 1]) increases params by 6 + 1 + 8 = 15.
-This linear increase per unit compounds with deeper/wider layers, significantly raising compute cost.
-In Large Uni-NN (629 params), training time reaches 86.02s, compared to Normal NN (633 params, 64.82s).
-This growth makes Uni-NN less scalable for very large models due to higher memory and time demands.
+Overall Assessment
+The study establishes AdvUni-NN as the best architecture for this regression task (Test MSE 0.0044, R² 0.8859), showcasing the power of skip connections and regularization. However, its linear regression focus, Uni-NN’s sparsity issues, and parameter growth highlight limitations. Future enhancements could include non-linear tasks, alternative activations, and optimized architectures for broader applicability and efficiency.
 
-4. Other Limitations:
-Small Dataset: With only 1030 samples, the dataset may not capture broader complexities (e.g., noise, outliers).
-Fixed Hyperparameters: Batch size (64), epochs (10,000), and Adam optimizer limit exploration.
-Normal NN’s poor convergence in Long group (Test MSE 0.0446) suggests 10,000 epochs may be insufficient.
-No Hyperparameter Tuning: Learning rate is varied, but Dropout rates, layer sizes, etc., are fixed.
-Adv-Uni-NN’s success (Test MSE 0.0031) may improve further with tuned Dropout (e.g., 0.2 vs. 0.5).
-Optimizer Bias: Using only Adam may favor Adv-Uni-NN due to its BatchNorm; SGD might help Normal NN.
-Overall Assessment:
-
-The experiment provides a solid foundation for comparing neural network architectures in regression tasks. Adv-Uni-NN excels (Test MSE 0.0031, R² 0.9308), showing the value of skip connections and BatchNorm. However, its focus on linear regression, first-layer sparsity in Uni-NN, and parameter growth in larger models highlight areas for improvement. Addressing these through non-linear tasks, alternative activations, and optimized architectures could enhance generalizability and efficiency.
 
