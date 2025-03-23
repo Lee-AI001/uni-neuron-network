@@ -37,6 +37,11 @@ RESULT:   * welcome to test it out yourself in "uni-NN_test" ^v*
 
 LEARNING_RATE = 0.001                                 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+
+Learning Curve for Advanced uni-NN (LR 0.001):
+![Adv uni-NN LR 0.001](images/uni-NN_lr=0.001.jpg) 
+
+
 Small Group Results:
 Normal Network (Structure: [8, 10, 6, 1], 163 params):
 Train MSE: 0.0174, Dev MSE: 0.0122, Test MSE: 0.0188
@@ -62,7 +67,6 @@ Train MAE: 0.0629, Dev MAE: 0.0541, Test MAE: 0.0671
 Train R²: 0.8436, Dev R²: 0.8573, Test R²: 0.8429
 Train Residual: 0.0629, Dev Residual: 0.0541, Test Residual: 0.0671
 Time: 147.65s, Latency: 0.0002s, Overfit Gap: 0.0014
-
 
 
 Mid Group Results:
@@ -92,7 +96,6 @@ Train Residual: 0.0552, Dev Residual: 0.0611, Test Residual: 0.0604
 Time: 247.59s, Latency: 0.0002s, Overfit Gap: -0.0011
 
 
-
 Large Group Results:
 Normal Network (Structure: [8, 24, 16, 1], 633 params):
 Train MSE: 0.0180, Dev MSE: 0.0132, Test MSE: 0.0211
@@ -120,7 +123,6 @@ Train Residual: 0.0483, Dev Residual: 0.0555, Test Residual: 0.0580
 Time: 267.61s, Latency: 0.0002s, Overfit Gap: -0.0009
 
 
-
 Long Group Results:
 Normal Network (Structure: [8, 10, 8, 8, 4, 4, 1], 311 params):
 Train MSE: 0.0435, Dev MSE: 0.0388, Test MSE: 0.0446
@@ -146,9 +148,6 @@ Train MAE: 0.0535, Dev MAE: 0.0527, Test MAE: 0.0560
 Train R²: 0.8888, Dev R²: 0.8883, Test R²: 0.8955
 Train Residual: 0.0535, Dev Residual: 0.0527, Test Residual: 0.0560
 Time: 355.17s, Latency: 0.0003s, Overfit Gap: 0.0006
-
-
-
 
 
 Uni-Neuron Network Results Across All Groups:
