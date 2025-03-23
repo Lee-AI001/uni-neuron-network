@@ -68,6 +68,7 @@ Recommendations:
 For deployment, use AdvUni-NN with LR=0.05, balancing accuracy and generalization.
 For efficiency, consider Small or Mid groups (165–277 params), achieving Test MSE ~0.0046.
 For maximum accuracy, use Large (629 params) or Long (313 params) groups with AdvUni-NN.
+
 Future work could explore learning rate scheduling or alternative activation functions (e.g., LeakyReLU) to reduce sparsity and enhance the first layer’s impact.
 This study underscores the importance of skip connections and regularization in deep neural networks for regression, providing a foundation for further optimization in similar tasks.
 
