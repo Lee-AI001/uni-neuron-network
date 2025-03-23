@@ -1,4 +1,4 @@
---> Uni-Neuron Network (Uni-NN) Experiment  *v*
+--> Uni-Neuron Network (Uni-NN) Experiment  ^v^
 
 A fun experiment introducing a new neural network idea: Uni-Neuron Network (Uni-NN)! This architecture aims to tackle the gradient vanishing and exploding problems commonly faced in deep networks by using skip-layer connections. Let's dive into this innovative approach inspired by the human brain! 🚀
 
