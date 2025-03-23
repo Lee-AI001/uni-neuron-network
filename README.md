@@ -1,4 +1,4 @@
---> Uni-Neuron Network (Uni-NN) Experiment  *v^
+--> Uni-Neuron Network (Uni-NN) Experiment  *v*
 
 A fun experiment introducing a new neural network idea: Uni-Neuron Network (Uni-NN)! This architecture aims to tackle the gradient vanishing and exploding problems commonly faced in deep networks by using skip-layer connections. Let's dive into this innovative approach inspired by the human brain! 🚀
 
@@ -7,7 +7,7 @@ A fun experiment introducing a new neural network idea: Uni-Neuron Network (Uni-
 * What is Uni-NN?
 
 - Normal Neural Network
-- 
+
 In a traditional neural network, each layer's activation is computed as:
 
 
@@ -22,6 +22,7 @@ f is the activation function (e.g., ReLU),
 
 weight * a_last_layer + bias combines the previous layer's activation with weights and biases.
 
+......
 
 - Uni-Neuron Network (Uni-NN)
 
