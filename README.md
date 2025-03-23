@@ -44,6 +44,7 @@ Below is the learning curve for the Advanced Uni-NN at a learning rate of 0.005,
 
 
 What's Next?
-This repository contains the experiment's code, results, and detailed analysis. 
 
+This repository contains the experiment's code, results, and detailed analysis. 
+We aim to inspire, contribute, and grow—open to every idea in the AI community! 🌟
 Contributions and ideas are welcome! Let's explore the potential of Uni-NN together! 😄
