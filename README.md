@@ -6,7 +6,7 @@ A fun experiment introducing a new neural network idea: Uni-Neuron Network (Uni-
 
 * What is Uni-NN?
 
-- Normal Neural Network
+##Normal Neural Network
 
 In a traditional neural network, each layer's activation is computed as:
 
@@ -24,7 +24,7 @@ weight * a_last_layer + bias combines the previous layer's activation with weigh
 
 ......
 
-- Uni-Neuron Network (Uni-NN)
+##Uni-Neuron Network (Uni-NN)
 
 Uni-NN modifies this by introducing skip-layer connections, allowing a neuron to connect not just to the previous layer but also to earlier layers:
 
