@@ -1,1 +1,8 @@
-
+Learning Curve Images:
+1. images/uni-NN_lr=0.005.jpg - uni-NN, LR 0.005
+2. images/uni-NN_lr=0.0025.jpg - uni-NN, LR 0.0025
+3. images/uni-NN_lr=0.001.jpg - uni-NN, LR 0.001
+4. images/uni-NN_lr=0.0075.jpg - uni-NN, LR 0.0075
+5. images/uni-NN_lr=0.01.jpg - uni-NN, LR 0.01
+6. images/uni-NN_lr=0.025.jpg - uni-NN, LR 0.025
+7. images/uni-NN_lr=0.05.jpg - uni-NN, LR 0.05
