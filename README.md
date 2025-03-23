@@ -47,7 +47,7 @@ Uni-NN is inspired by the human brain 🧠, where neurons don't connect strictly
 Gradient Stability: Uni-NN showcases strong prevention of gradient vanishing and exploding problems by allowing gradients to flow through multiple paths via skip connections.
 Faster Convergence: When paired with advanced methods like Adam, Uni-NN converges faster compared to traditional NNs.
 Learning Curve
-Below is the learning curve for the Advanced Uni-NN at a learning rate of 0.005, demonstrating its training performance:
+Below is the learning curve for the Advanced Uni-NN at a learning rate of 0.0025, demonstrating its training performance:
 ![Adv uni-NN LR 0.0025](images/uni-NN_lr=0.0025.jpg)
 
 -----
