@@ -74,3 +74,51 @@ This study underscores the importance of skip connections and regularization in 
 
 
 
+
+Key Observations and Limitations:
+
+1. Limited to Linear Regression Tasks:
+The experiment focuses solely on linear regression, predicting concrete strength as a continuous output.
+This restricts generalizability to non-linear tasks (e.g., polynomial regression or classification).
+Real-world problems often involve non-linear patterns, which these models may not handle well.
+For instance, Normal NN fails in deeper structures (Long group, R² -0.0041 at LR=0.0075), suggesting poor adaptability.
+Testing on non-linear datasets (e.g., Boston Housing with non-linear features) could reveal more insights.
+
+2. First Layer Issues in Uni-NN (Sparsity):
+Uni-NN and Adv-Uni-NN use ReLU activation, leading to sparsity in the first layer.
+In Uni-NN, up to 92% of first-layer outputs are zero (e.g., Small group, LR=0.001), due to ReLU’s thresholding.
+This sparsity reduces the layer’s contribution, as most neurons output zero for negative inputs.
+For an 8-node input layer to a 6-node first layer (Small group), the weight matrix W1 is 8×6 (48 params).
+With 92% sparsity, only ~4 params effectively contribute, impacting stability (e.g., Test MSE 0.0216 at LR=0.001).
+Adv-Uni-NN mitigates this with skip connections, achieving better stability (Test MSE 0.0031, Large group, LR=0.05).
+Alternative activations like LeakyReLU could reduce sparsity and improve Uni-NN’s performance.
+
+3. Parameter Growth in Uni-NN as Size Increases:
+Uni-NN's parameter count grows significantly with larger architectures, impacting compute cost.
+Consider a 4-layer Uni-NN [a, b, c, d] (input layer a, hidden layers b, c, output layer d).
+Layer 1: (a * b + b) params (weights + biases).
+Layer 2: (b * c + c) params.
+Layer 3: (c * d + d) params.
+Skip connections: Input-to-layer 2 (a * c), input-to-layer 3 (a * d), layer 1-to-layer 3 (b * d).
+Total params = (a * b + b) + (b * c + c) + (c * d + d) + (a * c) + (a * d) + (b * d).
+If we add one unit to layer 3 (i.e., c to c+1), the new architecture is [a, b, c+1, d].
+Layer 2 params increase: From (b * c + c) to (b * (c+1) + (c+1)) = (b * c + c) + b + 1.
+Layer 3 params increase: From (c * d + d) to ((c+1) * d + d) = (c * d + d) + d.
+Skip connection (input-to-layer 2) increases: From (a * c) to (a * (c+1)) = (a * c) + a.
+Total increase = (b + 1) + d + a.
+Example: For [8, 6, 6, 1] (Small Uni-NN), adding a unit to layer 3 ([8, 6, 7, 1]) increases params by 6 + 1 + 8 = 15.
+This linear increase per unit compounds with deeper/wider layers, significantly raising compute cost.
+In Large Uni-NN (629 params), training time reaches 86.02s, compared to Normal NN (633 params, 64.82s).
+This growth makes Uni-NN less scalable for very large models due to higher memory and time demands.
+
+4. Other Limitations:
+Small Dataset: With only 1030 samples, the dataset may not capture broader complexities (e.g., noise, outliers).
+Fixed Hyperparameters: Batch size (64), epochs (10,000), and Adam optimizer limit exploration.
+Normal NN’s poor convergence in Long group (Test MSE 0.0446) suggests 10,000 epochs may be insufficient.
+No Hyperparameter Tuning: Learning rate is varied, but Dropout rates, layer sizes, etc., are fixed.
+Adv-Uni-NN’s success (Test MSE 0.0031) may improve further with tuned Dropout (e.g., 0.2 vs. 0.5).
+Optimizer Bias: Using only Adam may favor Adv-Uni-NN due to its BatchNorm; SGD might help Normal NN.
+Overall Assessment:
+
+The experiment provides a solid foundation for comparing neural network architectures in regression tasks. Adv-Uni-NN excels (Test MSE 0.0031, R² 0.9308), showing the value of skip connections and BatchNorm. However, its focus on linear regression, first-layer sparsity in Uni-NN, and parameter growth in larger models highlight areas for improvement. Addressing these through non-linear tasks, alternative activations, and optimized architectures could enhance generalizability and efficiency.
+
